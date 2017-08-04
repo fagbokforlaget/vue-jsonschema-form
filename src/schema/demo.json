@@ -1,0 +1,46 @@
+{
+  "title": "A registration form",
+  "description": "A simple form example.",
+  "type": "object",
+  "required": [
+    "firstName",
+    "lastName"
+  ],
+  "properties": {
+    "socialTitle": {
+      "type": "string",
+      "title": "Social title",
+      "placeholder": "Please choose:",
+      "enum": [
+        "Mr.",
+        "Ms.",
+        "Mrs.",
+        "Miss"
+      ]
+    },
+    "firstName": {
+      "type": "string",
+      "title": "First name"
+    },
+    "lastName": {
+      "type": "string",
+      "title": "Last name"
+    },
+    "userEmail": {
+      "type": "string",
+      "title": "Email",
+      "maxLength": 120,
+      "attrs": {
+        "type": "email"
+      }
+    },
+    "userPass": {
+      "type": "string",
+      "title": "Password",
+      "minLength": 6,
+      "attrs": {
+        "type": "password"
+      }
+    }
+  }
+}

@@ -5,6 +5,7 @@ module.exports = {
   ],
   rules: {
     // override/add rules' settings here
-    'vue/no-invalid-v-if': 'error'
+    'vue/no-invalid-v-if': 'error',
+    'no-console': 0
   }
 }
