@@ -1,6 +1,6 @@
 {
   "name": "vue-jsonschema-form",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "JSON Schema form generator for Vue.js",
   "main": "index.js",
   "scripts": {

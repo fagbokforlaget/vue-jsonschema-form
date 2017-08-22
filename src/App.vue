@@ -1,8 +1,14 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png" height="100" alt="">
-    <schema-form v-if="schema !== null" :schema="schema" v-model="model">
-      <button type="submit" class="btn btn-lg btn-primary pull-right" v-on:click="submitForm">Submit</button>
+    <schema-form v-if="schema !== null"
+      :schema="schema"
+      :messages="messages"
+      :autocomplete="autocomplete"
+      :error="error"
+      :success="success"
+      v-model="model">
+      <button type="submit" class="btn btn-lg btn-primary pull-right" v-on:click="submitForm">Create account</button>
     </schema-form>
   </div>
 </template>
@@ -18,14 +24,90 @@ export default {
   },
   data: () => ({
     model: {},
-    schema: schema
+    schema: schema,
+    messages: {
+      error: {
+        header: 'Oh snap!!!',
+        info: 'Check the form and try submitting again'
+      },
+      success: {
+        header: 'Well done!!!',
+        info: 'Your data has been sent successfully'
+      }
+    },
+    autocomplete: 'off',
+    error: false,
+    success: false,
+    delay: 6000,
+    timer: null
   }),
   methods: {
-    submitForm () {
-      // this.model contains the valid data according your JSON Schema.
-      // You can submit your model to the server here
+    /**
+     * Intercept submit event and validate data
+     * Model contains the valid data according to the JSON Schema
+     */
+    submitForm (event) {
+      let form = event.srcElement.parentElement
+
+      Array.from(form.querySelectorAll('[required]')).forEach(field => {
+        if (field.value.trim() === '') {
+          field.classList.add('invalid')
+        } else {
+          field.classList.remove('invalid')
+        }
+      })
+
+      if (form.checkValidity()) {
+        this.clearErrorMessage()
+        this.setSuccessMessage()
+      } else {
+        this.setErrorMessage()
+        return false
+      }
+
       console.log('Form data:')
       console.log(this.model)
+    },
+
+    /**
+     * Set error message
+     */
+    setErrorMessage (message) {
+      if (message) {
+        this.messages.error.info = message
+      }
+      this.error = true
+      clearTimeout(this.timer)
+      this.timer = setTimeout(() => {
+        this.clearErrorMessage()
+      }, this.delay)
+    },
+
+    /**
+     * Clear error message
+     */
+    clearErrorMessage () {
+      this.error = false
+    },
+
+    /**
+     * Set success message
+     */
+    setSuccessMessage (message) {
+      if (message) {
+        this.messages.success.info = message
+      }
+      this.success = true
+      this.timer = setTimeout(() => {
+        this.clearSuccessMessage()
+      }, this.delay)
+    },
+
+    /**
+     * Clear success message
+     */
+    clearSuccessMessage () {
+      this.success = false
     }
   }
 }

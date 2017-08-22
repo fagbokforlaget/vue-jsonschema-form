@@ -4,9 +4,17 @@
       <h1>{{ schema.title }}</h1>
       <p>{{ schema.description }}</p>
     </div>
-    <div v-if="error" class="alert alert-danger" role="alert">
-      <h3 v-if="title">{{ title }}</h3>
-      <p>{{ error }}</p>
+    <div v-if="error && messages.error" class="alert alert-danger" role="alert">
+      <p>
+        <strong v-if="messages.error.header">{{ messages.error.header }}</strong>
+        {{ messages.error.info }}
+      </p>
+    </div>
+    <div v-if="success && messages.success" class="alert alert-success" role="alert">
+      <p>
+        <strong v-if="messages.success.header">{{ messages.success.header }}</strong>
+        {{ messages.success.info }}
+      </p>
     </div>
     <form v-if="fields.length"
       class="clearfix"
@@ -72,14 +80,13 @@
       </div>
       <!-- Use this slot to override the default form button -->
       <slot>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-lg btn-primary pull-right">Submit</button>
       </slot>
     </form>
   </div>
 </template>
 
 <script>
-  import Vue from 'vue'
   import * as utils from './utils.js';
   import InputBoxComponent from './form-elements/InputBox.vue';
   import SwitchComponent from './form-elements/Switch.vue';
@@ -96,35 +103,49 @@
     },
     props: {
       /**
-       * The JSON Schema object. Use the `v-if` directive to load asynchronous schema.
+       * The JSON Schema object
+       * Use the `v-if` directive to load asynchronous schema
        */
-      schema: { type: Object, required: true },
-
+      schema: {
+        type: Object,
+        required: true
+      },
       /**
-       * The UI Schema object.
+       * The UI Schema object
        */
-      uiSchema: { type: Object, default: () => ({}) },
-
+      uiSchema: {
+        type: Object,
+        default: () => ({})
+      },
       /**
-       * Use this directive to create two-way data bindings with the component. It automatically picks the correct way to update the element based on the input type.
        * @model
+       * Use this directive to create two-way data bindings with the component
+       * It automatically picks the correct way to update the element based on the input type
        */
-      value: { type: Object, default: () => ({}) },
-
-      /**
-       * This property indicates whether the value of the control can be automatically completed by the browser. Possible values are: `off` and `on`.
-       */
-      autocomplete: { type: String },
-
-      /**
-       * This Boolean attribute indicates that the form is not to be validated when submitted.
-       */
-      novalidate: { type: Boolean }
+      value: {
+        type: Object,
+        default: () => ({})
+      },
+      messages: {
+        type: Object,
+        default: () => ({})
+      },
+      autocomplete: {
+        type: String
+      },
+      novalidate: {
+        type: Boolean
+      },
+      error: {
+        type: Boolean
+      },
+      success: {
+        type: Boolean
+      }
     },
     data: () => ({
       default: {},
-      fields: [],
-      error: null
+      fields: []
     }),
     created () {
       utils.loadFields(this, utils.clone(this.schema))
@@ -139,7 +160,7 @@
        */
       changed (e) {
         /**
-         * Fired when an form input value is changed.
+         * Fired when an form input value is changed
          */
         this.$emit('change', e)
       },
@@ -160,13 +181,14 @@
        */
       invalid (e) {
         /**
-         * Fired when a submittable element has been checked and doesn't satisfy its constraints. The validity of submittable elements is checked before submitting their owner form.
+         * Fired when a submittable element has been checked and doesn't satisfy its constraints
+         * The validity of submittable elements is checked before submitting their owner form
          */
         this.$emit('invalid', e)
       },
 
       /**
-       * Reset the value of all elements of the parent form.
+       * Reset the value of all elements of the parent form
        */
       reset () {
         for (let key in this.default) {
@@ -184,28 +206,17 @@
            */
           this.$emit('submit')
         }
-      },
-
-      /**
-       * Set a message error.
-       */
-      setErrorMessage (message) {
-        this.error = message
-      },
-
-      /**
-       * clear the message error.
-       */
-      clearErrorMessage () {
-        this.error = null
       }
     }
   }
 </script>
 
-<style scoped>
+<style>
 .vjf-form-controls {
   margin-bottom: 30px;
   text-align: left;
+}
+.vjf-form-controls .form-control.invalid {
+  border-color: red;
 }
 </style>
