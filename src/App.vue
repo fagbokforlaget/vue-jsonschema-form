@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
+    <img src="./assets/logo.png" height="100" alt="">
     <schema-form v-if="schema !== null" :schema="schema" v-model="model">
-      <button type="submit" class="btn btn-lg btn-primary pull-right" v-on:click.prevent="submitForm">Submit</button>
+      <button type="submit" class="btn btn-lg btn-primary pull-right" v-on:click="submitForm">Submit</button>
     </schema-form>
   </div>
 </template>

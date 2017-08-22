@@ -2,34 +2,36 @@
   <div class="container">
     <div v-if="schema.title" class="page-header">
       <h1>{{ schema.title }}</h1>
+      <p>{{ schema.description }}</p>
     </div>
     <div v-if="error" class="alert alert-danger" role="alert">
       <h3 v-if="title">{{ title }}</h3>
       <p>{{ error }}</p>
     </div>
-    <form v-if="fields.length" ref="__form" class="clearfix"
+    <form v-if="fields.length"
+      class="clearfix"
+      ref="__form"
       :autocomplete="autocomplete"
       :novalidate="novalidate"
-      @submit.stop.prevent="submit"
-      @invalid="invalid">
+      @invalid="invalid"
+      @submit.stop.prevent="submit">
       <div class="vjf-form-controls">
-        <div v-for="field in fields" v-bind:key="field.type" class="vjf-field-wrapper">
+        <div v-for="field in fields" class="vjf-field-wrapper" v-bind:key="field.type">
           <toggle-switch
             v-if="field.type === 'checkbox'"
             class="vjf-checkbox-field"
-            v-model="value[field.name]"
+            :id="field.id"
             :name="field.name"
             :label="field.label"
             :labels="field.labels"
             :helper="field.description"
             :placeholder="field.placeholder"
             :stacked="field.stacked"
-            :id="field.id"
+            v-model="value[field.name]"
             @change="changed"></toggle-switch>
           <select-list
             v-else-if="field.type === 'select'"
             class="vjf-select-field"
-            v-model="value[field.name]"
             :name="field.name"
             :label="field.label"
             :options="field.items"
@@ -38,32 +40,33 @@
             :stacked="field.stacked"
             :required="field.required"
             :keyName="field.keyName"
+            v-model="value[field.name]"
             @change="changed"></select-list>
           <text-area
             v-else-if="field.type === 'textarea'"
             class="vjf-textarea-field"
-            v-model="value[field.name]"
+            :id="field.id"
             :name="field.name"
             :label="field.label"
             :helper="field.description"
             :placeholder="field.placeholder"
             :stacked="field.stacked"
             :required="field.required"
-            :id="field.id"
+            v-model="value[field.name]"
             @change="changed"></text-area>
           <input-box
             v-else
             class="vjf-input-field"
-            v-model="value[field.name]"
+            :id="field.id"
             :name="field.name"
+            :type="field.type"
             :label="field.label"
             :helper="field.description"
             :placeholder="field.placeholder"
             :stacked="field.stacked"
-            :type="field.type"
             :required="field.required"
             :readonly="field.readonly"
-            :id="field.id"
+            v-model="value[field.name]"
             @change="changed"></input-box>
         </div>
       </div>
@@ -78,14 +81,19 @@
 <script>
   import Vue from 'vue'
   import * as utils from './utils.js';
-  import VueFormComponents from 'vue-form-components';
-  Vue.component('input-box', VueFormComponents.InputBoxComponent);
-  Vue.component('text-area', VueFormComponents.TextAreaComponent);
-  Vue.component('toggle-switch', VueFormComponents.SwitchComponent);
-  Vue.component('select-list', VueFormComponents.ListComponent);
+  import InputBoxComponent from './form-elements/InputBox.vue';
+  import SwitchComponent from './form-elements/Switch.vue';
+  import TextAreaComponent from './form-elements/TextArea.vue';
+  import ListComponent from './form-elements/List.vue';
 
   export default {
     name: 'schema-form',
+    components: {
+      'input-box': InputBoxComponent,
+      'text-area': TextAreaComponent,
+      'toggle-switch': SwitchComponent,
+      'select-list': ListComponent
+    },
     props: {
       /**
        * The JSON Schema object. Use the `v-if` directive to load asynchronous schema.

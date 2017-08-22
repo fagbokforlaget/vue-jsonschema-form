@@ -1,11 +1,7 @@
 {
-  "title": "A registration form",
-  "description": "A simple form example.",
+  "title": "Registration form",
+  "description": "A simple form example based on JSON Schema",
   "type": "object",
-  "required": [
-    "firstName",
-    "lastName"
-  ],
   "properties": {
     "socialTitle": {
       "type": "string",
@@ -42,5 +38,9 @@
         "type": "password"
       }
     }
-  }
+  },
+  "required": [
+    "firstName",
+    "lastName"
+  ]
 }
