@@ -5,7 +5,7 @@
   "properties": {
     "socialTitle": {
       "type": "string",
-      "title": "Social title",
+      "title": "Social Title",
       "placeholder": "Please choose:",
       "enum": [
         "Mr.",
@@ -14,17 +14,13 @@
         "Miss"
       ]
     },
-    "firstName": {
+    "userName": {
       "type": "string",
-      "title": "First name"
-    },
-    "lastName": {
-      "type": "string",
-      "title": "Last name"
+      "title": "Full Name"
     },
     "userEmail": {
       "type": "string",
-      "title": "Email",
+      "title": "Email address",
       "maxLength": 120,
       "attrs": {
         "type": "email"
@@ -37,10 +33,22 @@
       "attrs": {
         "type": "password"
       }
+    },
+    "userBio": {
+      "type": "string",
+      "title": "Short Bio",
+      "attrs": {
+        "type": "textarea"
+      }
+    },
+    "newsLetter": {
+      "type": "boolean",
+      "title": "Newsletter Subscription"
     }
   },
   "required": [
-    "firstName",
-    "lastName"
+    "userName",
+    "userEmail",
+    "userPass"
   ]
 }

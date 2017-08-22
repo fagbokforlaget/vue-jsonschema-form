@@ -1,6 +1,6 @@
 <template>
   <div class="form-group switch-group">
-    <label v-if="label" class="control-label" :class="labelColumnClass">{{ label }}</label>
+    <label v-if="label" class="control-label" :class="labelColumnClass">{{ label }}:</label>
     <div :class="inputColumnClass">
       <label class="switch-component">
         <input type="checkbox"

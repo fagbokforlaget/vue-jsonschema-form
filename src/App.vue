@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png" height="100" alt="">
     <schema-form v-if="schema !== null"
       :schema="schema"
       :messages="messages"
@@ -120,7 +119,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 h1 {
