@@ -46,7 +46,7 @@ export default {
      * Model contains the valid data according to the JSON Schema
      */
     submitForm (event) {
-      let form = event.srcElement.parentElement
+      const form = event.target.parentElement
 
       Array.from(form.querySelectorAll('[required]')).forEach(field => {
         if (field.value.trim() === '') {
@@ -114,6 +114,7 @@ export default {
 
 <style>
 #app {
+  padding: 30px 0;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
